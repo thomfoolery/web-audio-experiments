@@ -1,0 +1,26 @@
+.KeyboardControls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: white;
+  padding: 10px 10px 0;
+}
+
+.KeyboardControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+}
+
+.KeyboardControl label {
+  display: inline-block;
+  width: 5rem;
+  text-align: right;
+  margin-right: 1em;
+}
+
+.KeyboardControl input {
+  margin-right: 1em;
+}

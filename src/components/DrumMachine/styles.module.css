@@ -1,0 +1,76 @@
+.DrumMachineContainer {
+  background: #333;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  user-select: none;
+}
+
+.DrumMachineContainer h2 {
+  padding-bottom: 5px;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid white;
+  font-weight: 100;
+  letter-spacing: -0.05em;
+}
+
+.DrumMachineControls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.BpmControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+
+.BpmControl input {
+  margin-right: 5px;
+}
+
+.Sequencer {
+  overflow-x: auto;
+}
+
+.Sequence {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.Sequence :first-child {
+  width: 50px;
+  margin-right: 10px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.Note {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border: 3px solid white;
+  margin-right: 10px;
+  text-align: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.NoteCurrent {
+  background-color: white;
+  color: black;
+}
+
+.NoteSelected {
+  border-color: yellow;
+}
+
+.NoteSelected.BeatCurrent {
+  background-color: yellow;
+  border-color: yellow;
+}

@@ -2,7 +2,13 @@ import React, { memo } from "react";
 
 import styles from "./styles.module.css";
 
-function Sequence({ label, sequence, currentNote, handleClickNote }) {
+function Sequence({
+  label,
+  sequence,
+  currentNote,
+  handleMouseDownNote,
+  handleMouseEnterNote,
+}) {
   return (
     <div className={styles.Sequence}>
       <div>{label}</div>
@@ -21,7 +27,8 @@ function Sequence({ label, sequence, currentNote, handleClickNote }) {
           <div
             key={`note-${index + 1}`}
             className={classList.join(" ")}
-            onClick={handleClickNote(index)}
+            onMouseDown={handleMouseDownNote(index)}
+            onMouseEnter={handleMouseEnterNote(index)}
           >
             {index + 1}
           </div>

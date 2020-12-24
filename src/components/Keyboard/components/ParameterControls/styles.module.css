@@ -1,4 +1,4 @@
-.KeyboardControls {
+.ParameterControls {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -7,20 +7,20 @@
   padding: 10px 10px 0;
 }
 
-.KeyboardControl {
+.ParameterControl {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 5px;
 }
 
-.KeyboardControl label {
+.ParameterControl label {
   display: inline-block;
-  width: 5rem;
+  width: 100px;
   text-align: right;
-  margin-right: 1em;
+  margin-right: 10px;
 }
 
-.KeyboardControl input {
-  margin-right: 1em;
+.ParameterControl input {
+  margin-right: 10px;
 }

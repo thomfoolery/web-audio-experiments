@@ -6,30 +6,29 @@
   user-select: none;
 }
 
+.DrumMachineHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.DrumMachineButtons button {
+  width: 100px;
+  padding: 1em;
+  margin-bottom: 10px;
+}
+
+.DrumMachineButtons button + button {
+  margin-left: 10px;
+}
+
 .DrumMachineContainer h2 {
   padding-bottom: 5px;
   margin: 0 0 10px 0;
   border-bottom: 1px solid white;
   font-weight: 100;
   letter-spacing: -0.05em;
-}
-
-.DrumMachineControls {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.BpmControl {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: white;
-}
-
-.BpmControl input {
-  margin-right: 5px;
 }
 
 .Sequencer {

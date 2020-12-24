@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./styles.module.css";
 
-function Controls({
+function ParameterControls({
   waveform1,
   waveform2,
   attack,
@@ -15,10 +15,10 @@ function Controls({
   handleVolumeChange,
 }) {
   return (
-    <div className={styles.KeyboardControls}>
+    <div className={styles.ParameterControls}>
       <div>
         {/* Waveform 1 */}
-        <div className={styles.KeyboardControl}>
+        <div className={styles.ParameterControl}>
           <label htmlFor="waveform1">Waveform 1</label>
           <select
             name="waveform1"
@@ -32,7 +32,7 @@ function Controls({
           </select>
         </div>
         {/* Waveform 2 */}
-        <div className={styles.KeyboardControl}>
+        <div className={styles.ParameterControl}>
           <label htmlFor="waveform2">Waveform 2</label>
           <select
             name="waveform2"
@@ -48,7 +48,7 @@ function Controls({
       </div>
       <div>
         {/* Attack */}
-        <div className={styles.KeyboardControl}>
+        <div className={styles.ParameterControl}>
           <label htmlFor="attack">Attack</label>
           <input
             type="range"
@@ -62,7 +62,7 @@ function Controls({
           <div>{attack}s</div>
         </div>
         {/* Release */}
-        <div className={styles.KeyboardControl}>
+        <div className={styles.ParameterControl}>
           <label htmlFor="release">Release</label>
           <input
             type="range"
@@ -76,7 +76,7 @@ function Controls({
           <div>{release}s</div>
         </div>
         {/* Volume */}
-        <div className={styles.KeyboardControl}>
+        <div className={styles.ParameterControl}>
           <label htmlFor="volume">Volume</label>
           <input
             type="range"
@@ -94,4 +94,4 @@ function Controls({
   );
 }
 
-export default Controls;
+export default ParameterControls;

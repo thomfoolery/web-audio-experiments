@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 function useControls({ masterGainNode }) {
-  const [volume, setVolume] = useState(0.25);
+  const [volume, setVolume] = useState(0.3);
   const [attack, setAttack] = useState(0.2);
   const [release, setRelease] = useState(0.2);
   const [waveform1, setWaveform1] = useState("sine");
@@ -34,6 +34,11 @@ function useControls({ masterGainNode }) {
     []
   );
 
+  useEffect(() => (masterGainNode.gain.value = volume), [
+    masterGainNode,
+    volume,
+  ]);
+
   return {
     volume,
     attack,
@@ -44,7 +49,7 @@ function useControls({ masterGainNode }) {
     handleAttackChange,
     handleReleaseChange,
     handleWaveformChange1,
-    handleWaveformChange2
+    handleWaveformChange2,
   };
 }
 

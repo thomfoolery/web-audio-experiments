@@ -2,7 +2,9 @@ import React, { useState, useCallback, useEffect } from "react";
 
 import useSynth from "./hooks/useSynth";
 import useSequencer from "./hooks/useSequencer";
+
 import Sequence from "./components/Sequence";
+import ParameterControls from "./components/ParameterControls";
 
 import {
   initialKickSequence,
@@ -13,6 +15,7 @@ import {
 import styles from "./styles.module.css";
 
 const initialBpm = 120;
+const initialVolume = 0.3;
 
 function toggleSequenceNote(sequence, index) {
   const sequenceCopy = [...sequence];
@@ -23,6 +26,7 @@ function toggleSequenceNote(sequence, index) {
 
 function DrumMachine() {
   const [bpm, setBpm] = useState(initialBpm);
+  const [volume, setVolume] = useState(initialVolume);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
 
@@ -43,21 +47,56 @@ function DrumMachine() {
 
   const handleChangeBpm = useCallback((e) => setBpm(e.target.value), []);
 
-  const handleClickKickNote = useCallback(
+  const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
+
+  const handleClickClear = useCallback(() => {
+    setKickSequence(Array(16).fill(false));
+    setSnareSequence(Array(16).fill(false));
+    setHiHatSequence(Array(16).fill(false));
+  }, [setKickSequence]);
+
+  const handleMouseDownKickNote = useCallback(
     (index) => () =>
       setKickSequence((sequence) => toggleSequenceNote(sequence, index)),
     [setKickSequence]
   );
 
-  const handleClickSnareNote = useCallback(
+  const handleMouseDownSnareNote = useCallback(
     (index) => () =>
       setSnareSequence((sequence) => toggleSequenceNote(sequence, index)),
     [setSnareSequence]
   );
 
-  const handleClickHiHatNote = useCallback(
+  const handleMouseDownHiHatNote = useCallback(
     (index) => () =>
       setHiHatSequence((sequence) => toggleSequenceNote(sequence, index)),
+    [setHiHatSequence]
+  );
+
+  const handleMouseEnterKickNote = useCallback(
+    (index) => (e) => {
+      if (e.buttons === 1) {
+        setKickSequence((sequence) => toggleSequenceNote(sequence, index));
+      }
+    },
+    [setKickSequence]
+  );
+
+  const handleMouseEnterSnareNote = useCallback(
+    (index) => (e) => {
+      if (e.buttons === 1) {
+        setSnareSequence((sequence) => toggleSequenceNote(sequence, index));
+      }
+    },
+    [setSnareSequence]
+  );
+
+  const handleMouseEnterHiHatNote = useCallback(
+    (index) => (e) => {
+      if (e.buttons === 1) {
+        setHiHatSequence((sequence) => toggleSequenceNote(sequence, index));
+      }
+    },
     [setHiHatSequence]
   );
 
@@ -76,30 +115,26 @@ function DrumMachine() {
     hiHatSequence,
   ]);
 
-  useEffect(() => {
-    sequencer.setBpm(bpm);
-  }, [sequencer, bpm]);
+  useEffect(() => sequencer.setBpm(bpm), [sequencer, bpm]);
+  useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
 
   return (
     <div className={styles.DrumMachineContainer}>
       <h2>DRUM MACHINE</h2>
 
-      <div className={styles.DrumMachineControls}>
-        <button onClick={handleClickPlayStop}>
-          {isPlaying ? "Stop" : "Play"}
-        </button>
-        <div className={styles.BpmControl}>
-          <input
-            type="range"
-            name="bpm"
-            step="1"
-            min="60"
-            max="260"
-            value={bpm}
-            onChange={handleChangeBpm}
-          />
-          <div>{bpm} BPM</div>
+      <div className={styles.DrumMachineHeader}>
+        <div className={styles.DrumMachineButtons}>
+          <button onClick={handleClickPlayStop}>
+            {isPlaying ? "Stop" : "Play"}
+          </button>
+          <button onClick={handleClickClear}>Clear</button>
         </div>
+        <ParameterControls
+          bpm={bpm}
+          volume={volume}
+          handleChangeBpm={handleChangeBpm}
+          handleChangeVolume={handleChangeVolume}
+        />
       </div>
 
       <div className={styles.Sequencer}>
@@ -107,19 +142,22 @@ function DrumMachine() {
           label="Kick"
           sequence={kickSequence}
           currentNote={currentNote}
-          handleClickNote={handleClickKickNote}
+          handleMouseDownNote={handleMouseDownKickNote}
+          handleMouseEnterNote={handleMouseEnterKickNote}
         />
         <Sequence
           label="Snare"
           sequence={snareSequence}
           currentNote={currentNote}
-          handleClickNote={handleClickSnareNote}
+          handleMouseDownNote={handleMouseDownSnareNote}
+          handleMouseEnterNote={handleMouseEnterSnareNote}
         />
         <Sequence
           label="Hi-hat"
           sequence={hiHatSequence}
           currentNote={currentNote}
-          handleClickNote={handleClickHiHatNote}
+          handleMouseDownNote={handleMouseDownHiHatNote}
+          handleMouseEnterNote={handleMouseEnterHiHatNote}
         />
       </div>
     </div>

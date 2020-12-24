@@ -1,0 +1,17 @@
+.ParameterControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  margin: 5px;
+}
+
+.ParameterControl label {
+  width: 100px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.ParameterControl input {
+  margin-right: 10px;
+}

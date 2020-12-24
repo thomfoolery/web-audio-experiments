@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-import Controls from "./components/Controls";
+import ParameterControls from "./components/ParameterControls";
 import Keys from "./components/Keys";
 
 import useKeys from "./hooks/useKeys";
@@ -55,7 +55,7 @@ function Keyboard() {
   return (
     <div className={styles.KeyboardContainer}>
       <h2>KEYBOARD</h2>
-      <Controls
+      <ParameterControls
         volume={volume}
         attack={attack}
         release={release}

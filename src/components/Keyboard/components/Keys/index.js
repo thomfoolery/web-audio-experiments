@@ -1,6 +1,6 @@
 import React from "react";
 
-import { allNotesByOctave } from "../../utils/notes";
+import { allNotesByOctave } from "../../../../synthesis/notes";
 
 import styles from "./styles.module.css";
 

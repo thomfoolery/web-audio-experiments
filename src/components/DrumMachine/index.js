@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import useSynth from "./hooks/useSynth";
 import useSequencer from "./hooks/useSequencer";
 
 import Sequence from "./components/Sequence";
@@ -24,13 +23,12 @@ function toggleSequenceNote(sequence, index) {
   return sequenceCopy;
 }
 
-function DrumMachine() {
+function DrumMachine({ synth }) {
   const [bpm, setBpm] = useState(initialBpm);
   const [volume, setVolume] = useState(initialVolume);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
 
-  const synth = useSynth();
   const sequencer = useSequencer(synth, setIsPlaying, setCurrentNote);
 
   const [kickSequence, setKickSequence] = useState(initialKickSequence);

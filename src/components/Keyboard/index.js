@@ -4,15 +4,12 @@ import ParameterControls from "./components/ParameterControls";
 import Keys from "./components/Keys";
 
 import useKeys from "./hooks/useKeys";
-import useSynth from "./hooks/useSynth";
 import useControls from "./hooks/useControls";
 
 import keyStyles from "./components/Keys/styles.module.css";
 import styles from "./styles.module.css";
 
-function Keyboard() {
-  const synth = useSynth();
-
+function Keyboard({ synth }) {
   const {
     volume,
     attack,

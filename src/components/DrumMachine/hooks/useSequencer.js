@@ -3,11 +3,17 @@ import { useMemo } from "react";
 const scheduleAheadTime = 0.1; // s
 const lookahead = 25; // ms
 
-const sequenceLength = 16;
-
-function useSequencer(synth, setIsPlaying, setCurrentNote) {
+function useSequencer(
+  synth,
+  setIsPlaying,
+  setCurrentNote,
+  timeSignature = "4/4"
+) {
   return useMemo(() => {
     const { audioContext } = synth;
+
+    const [beatsPerBar, notesPerBeat] = timeSignature.split("/");
+    const sequenceLength = beatsPerBar * notesPerBeat;
 
     let sequences = [
       Array(sequenceLength).fill(false),
@@ -21,7 +27,7 @@ function useSequencer(synth, setIsPlaying, setCurrentNote) {
     let timerID;
 
     function nextNote() {
-      const secondsPerNote = 60 / (bpm * 4);
+      const secondsPerNote = 60 / (bpm * notesPerBeat);
 
       nextNoteTime += secondsPerNote;
       currentNote++;
@@ -33,17 +39,13 @@ function useSequencer(synth, setIsPlaying, setCurrentNote) {
 
     function scheduler() {
       while (nextNoteTime < audioContext.currentTime + scheduleAheadTime) {
-        if (sequences[0][currentNote] === true) {
-          synth.playKick(nextNoteTime);
-        }
-
-        if (sequences[1][currentNote] === true) {
-          synth.playSnare(nextNoteTime);
-        }
-
-        if (sequences[2][currentNote] === true) {
-          synth.playHiHat(nextNoteTime);
-        }
+        sequences.forEach((seq, index) => {
+          if (seq[currentNote] === true) {
+            if (index === 0) synth.playKick(nextNoteTime);
+            if (index === 1) synth.playSnare(nextNoteTime);
+            if (index === 2) synth.playHiHat(nextNoteTime);
+          }
+        });
 
         setCurrentNote(currentNote);
         nextNote();

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { allNotesMap } from "../utils/notes";
+import { allNotesMap } from "./notes";
 
 function useSynth() {
   return useMemo(() => {
@@ -49,7 +49,7 @@ function useSynth() {
 
       noteContexts[note] = {
         gains: [gain1, gain2],
-        oscillators: [osc1, osc2]
+        oscillators: [osc1, osc2],
       };
     }
 

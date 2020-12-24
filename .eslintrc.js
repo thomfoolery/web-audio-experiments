@@ -4,4 +4,7 @@ module.exports = {
   rules: {
     "react/prop-types": 0,
   },
+  env: {
+    browser: true,
+  },
 };

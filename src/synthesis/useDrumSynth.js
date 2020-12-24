@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
-import kickDrum from "../../../synthesis/kickDrum";
-import snareDrum from "../../../synthesis/snareDrum";
-import hiHat from "../../../synthesis/hiHat";
+import kickDrum from "./kickDrum";
+import snareDrum from "./snareDrum";
+import hiHat from "./hiHat";
 
 function useSynth() {
   return useMemo(() => {

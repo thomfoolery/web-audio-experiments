@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { keyNoteLookup } from "../utils/notes";
+import { keyNoteLookup } from "../../../synthesis/notes";
 
 function useKeys({ onNotePressed, onNoteReleased }) {
   const keyMap = useRef({});

@@ -4,8 +4,10 @@ import styles from "./styles.module.css";
 
 function ParameterControls({
   bpm,
+  swing,
   volume,
   handleChangeBpm,
+  handleChangeSwing,
   handleChangeVolume,
 }) {
   return (
@@ -22,6 +24,19 @@ function ParameterControls({
           onChange={handleChangeBpm}
         />
         <div>{bpm} BPM</div>
+      </div>
+      <div className={styles.ParameterControl}>
+        <label>Swing</label>
+        <input
+          type="range"
+          name="swing"
+          step="0.01"
+          min="0"
+          max="1"
+          value={swing}
+          onChange={handleChangeSwing}
+        />
+        <div>{(swing * 100).toFixed(0) - 50} %</div>
       </div>
       <div className={styles.ParameterControl}>
         <label>Volume</label>

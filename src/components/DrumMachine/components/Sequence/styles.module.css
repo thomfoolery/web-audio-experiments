@@ -32,7 +32,7 @@
   border-color: yellow;
 }
 
-.NoteSelected.BeatCurrent {
+.NoteSelected.NoteCurrent {
   background-color: yellow;
   border-color: yellow;
 }

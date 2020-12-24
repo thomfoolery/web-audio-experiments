@@ -14,6 +14,7 @@ import {
 import styles from "./styles.module.css";
 
 const initialBpm = 120;
+const initialSwing = 0.5;
 const initialVolume = 0.3;
 
 function toggleSequenceNote(sequence, index) {
@@ -25,6 +26,7 @@ function toggleSequenceNote(sequence, index) {
 
 function DrumMachine({ synth }) {
   const [bpm, setBpm] = useState(initialBpm);
+  const [swing, setSwing] = useState(initialSwing);
   const [volume, setVolume] = useState(initialVolume);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
@@ -44,6 +46,8 @@ function DrumMachine({ synth }) {
   }, [isPlaying, sequencer]);
 
   const handleChangeBpm = useCallback((e) => setBpm(e.target.value), []);
+
+  const handleChangeSwing = useCallback((e) => setSwing(e.target.value), []);
 
   const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
 
@@ -114,6 +118,7 @@ function DrumMachine({ synth }) {
   ]);
 
   useEffect(() => sequencer.setBpm(bpm), [sequencer, bpm]);
+  useEffect(() => sequencer.setSwing(swing), [sequencer, swing]);
   useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
 
   return (
@@ -129,8 +134,10 @@ function DrumMachine({ synth }) {
         </div>
         <ParameterControls
           bpm={bpm}
+          swing={swing}
           volume={volume}
           handleChangeBpm={handleChangeBpm}
+          handleChangeSwing={handleChangeSwing}
           handleChangeVolume={handleChangeVolume}
         />
       </div>

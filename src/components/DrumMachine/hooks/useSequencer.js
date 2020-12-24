@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
-const scheduleAheadTime = 0.1; // s
-const lookahead = 25; // ms
+const lookahead = 100; // ms
+const schedulerInterval = 25; // ms
 
 function useSequencer(
   synth,
@@ -22,13 +22,14 @@ function useSequencer(
 
     let nextNoteTime = 0;
     let currentNote = 0;
+    let swing = 0.5;
     let bpm = 120;
 
     let timerID;
 
     function nextNote() {
       const secondsPerNote = 60 / (bpm * notesPerBeat);
-
+      console.log(secondsPerNote);
       nextNoteTime += secondsPerNote;
       currentNote++;
 
@@ -37,21 +38,26 @@ function useSequencer(
       }
     }
 
+    function checkNote(seq, index) {
+      if (seq[currentNote] === true) {
+        const secondsPerNote = 60 / (bpm * notesPerBeat);
+        const offset =
+          currentNote % 2 === 0 ? (swing - 0.5) * secondsPerNote : 0;
+        if (index === 0) synth.playKick(nextNoteTime + offset);
+        if (index === 1) synth.playSnare(nextNoteTime + offset);
+        if (index === 2) synth.playHiHat(nextNoteTime + offset);
+      }
+    }
+
     function scheduler() {
-      while (nextNoteTime < audioContext.currentTime + scheduleAheadTime) {
-        sequences.forEach((seq, index) => {
-          if (seq[currentNote] === true) {
-            if (index === 0) synth.playKick(nextNoteTime);
-            if (index === 1) synth.playSnare(nextNoteTime);
-            if (index === 2) synth.playHiHat(nextNoteTime);
-          }
-        });
+      while (nextNoteTime < audioContext.currentTime + lookahead / 100) {
+        sequences.forEach(checkNote);
 
         setCurrentNote(currentNote);
         nextNote();
       }
 
-      timerID = setTimeout(scheduler, lookahead);
+      timerID = setTimeout(scheduler, schedulerInterval);
     }
 
     function start() {
@@ -76,12 +82,16 @@ function useSequencer(
       sequences[index] = newSequence;
     }
 
+    function setSwing(newSwing) {
+      swing = newSwing;
+    }
+
     function setBpm(newBpm) {
       bpm = newBpm;
     }
 
-    return { start, stop, setBpm, setSequence };
-  }, [synth, setIsPlaying, setCurrentNote]);
+    return { start, stop, setBpm, setSwing, setSequence };
+  }, [synth, setIsPlaying, setCurrentNote, timeSignature]);
 }
 
 export default useSequencer;

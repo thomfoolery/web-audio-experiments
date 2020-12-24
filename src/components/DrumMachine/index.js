@@ -9,6 +9,7 @@ import {
   initialSnareSequence,
   initialHiHatSequence,
 } from "./initialSequences";
+
 import styles from "./styles.module.css";
 
 const initialBpm = 120;

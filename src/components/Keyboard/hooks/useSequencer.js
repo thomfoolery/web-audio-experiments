@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 
+import { baseNotes } from "../../../synthesis/notes";
+
 const lookahead = 100; // ms
 const schedulerInterval = 25; // ms
 
@@ -22,7 +24,8 @@ function useSequencer(
 
     let nextNoteTime = 0;
     let currentNote = 0;
-    let swing = 0.5;
+    let hold = 0.1;
+    let octave = 3;
     let bpm = 120;
 
     let timerID;
@@ -38,14 +41,13 @@ function useSequencer(
       }
     }
 
-    function checkNote(seq, index) {
-      if (seq[currentNote] === true) {
-        const secondsPerNote = 60 / (bpm * notesPerBeat);
-        const offset =
-          currentNote % 2 === 0 ? (swing - 0.5) * secondsPerNote : 0;
-        if (index === 0) synth.playKick(nextNoteTime + offset);
-        if (index === 1) synth.playSnare(nextNoteTime + offset);
-        if (index === 2) synth.playHiHat(nextNoteTime + offset);
+    function checkNote(sequence, index) {
+      if (sequence[currentNote] === true) {
+        // eslint-disable-next-line no-unused-vars
+        const [_, baseFrequency] = baseNotes[index];
+        const frequency = baseFrequency * Math.pow(2, octave);
+
+        synth.playNote(frequency, audioContext.currentTime, hold);
       }
     }
 
@@ -78,19 +80,30 @@ function useSequencer(
       setIsPlaying(false);
     }
 
-    function setSequence(index, newSequence) {
-      sequences[index] = newSequence;
+    function setSequences(newSequence) {
+      sequences = newSequence;
     }
 
-    function setSwing(newSwing) {
-      swing = newSwing;
+    function setHold(newHold) {
+      hold = newHold;
+    }
+
+    function setOctave(newOctave) {
+      octave = newOctave;
     }
 
     function setBpm(newBpm) {
       bpm = newBpm;
     }
 
-    return { start, stop, setBpm, setSwing, setSequence };
+    return {
+      start,
+      stop,
+      setBpm,
+      setHold,
+      setOctave,
+      setSequences,
+    };
   }, [synth, setIsPlaying, setCurrentNote, timeSignature]);
 }
 

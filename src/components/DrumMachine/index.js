@@ -45,17 +45,15 @@ function DrumMachine({ synth }) {
     }
   }, [isPlaying, sequencer]);
 
-  const handleChangeBpm = useCallback((e) => setBpm(e.target.value), []);
-
-  const handleChangeSwing = useCallback((e) => setSwing(e.target.value), []);
-
-  const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
-
   const handleClickClear = useCallback(() => {
     setKickSequence(Array(16).fill(false));
     setSnareSequence(Array(16).fill(false));
     setHiHatSequence(Array(16).fill(false));
   }, [setKickSequence]);
+
+  const handleChangeBpm = useCallback((e) => setBpm(e.target.value), []);
+  const handleChangeSwing = useCallback((e) => setSwing(e.target.value), []);
+  const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
 
   const handleMouseDownKickNote = useCallback(
     (index) => () =>

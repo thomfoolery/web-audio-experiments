@@ -1,22 +1,24 @@
 import { useMemo } from "react";
-import { allNotesMap } from "./notes";
 
 function useSynth() {
   return useMemo(() => {
     const audioContext = new AudioContext();
     const masterGainNode = audioContext.createGain();
-    const noteContexts = {};
+    const context = {};
 
     masterGainNode.connect(audioContext.destination);
 
-    function playNote(waveform1, waveform2, attack, note) {
+    let waveform1 = "sine";
+    let waveform2 = "wave";
+    let attack = 0.2;
+    let release = 0.2;
+
+    function playNote(frequency, time, hold) {
       const osc1 = audioContext.createOscillator();
       const gain1 = audioContext.createGain();
 
       const osc2 = audioContext.createOscillator();
       const gain2 = audioContext.createGain();
-
-      const frequency = allNotesMap[note];
 
       gain1.gain.cancelScheduledValues(audioContext.currentTime);
       gain1.gain.setValueAtTime(0, audioContext.currentTime);
@@ -44,32 +46,59 @@ function useSynth() {
       osc1.type = waveform1;
       osc2.type = waveform2;
 
-      osc1.start();
-      osc2.start();
+      osc1.start(time);
+      osc2.start(time);
 
-      noteContexts[note] = {
+      context[frequency] = {
         gains: [gain1, gain2],
         oscillators: [osc1, osc2],
       };
-    }
 
-    function stopNote(release, note) {
-      if (noteContexts[note]) {
-        const { oscillators = [], gains = [] } = noteContexts[note];
-
-        gains.forEach((g) => {
-          g.gain.linearRampToValueAtTime(0, audioContext.currentTime + release);
-        });
-
-        oscillators.forEach((osc) => {
-          osc.stop(audioContext.currentTime + release);
-        });
-
-        delete noteContexts[note];
+      if (hold) {
+        stopNote(frequency, time + hold);
       }
     }
 
-    return { audioContext, masterGainNode, noteContexts, playNote, stopNote };
+    function stopNote(frequency, time = audioContext.currentTime) {
+      if (context[frequency]) {
+        const { oscillators = [], gains = [] } = context[frequency];
+
+        gains.forEach((g) => {
+          g.gain.linearRampToValueAtTime(0, time + release);
+        });
+
+        oscillators.forEach((osc) => {
+          osc.stop(time + release);
+        });
+
+        delete context[frequency];
+      }
+    }
+
+    function setWaveform1(newWaveform1) {
+      waveform1 = newWaveform1;
+    }
+    function setWaveform2(newWaveform2) {
+      waveform2 = newWaveform2;
+    }
+    function setAttack(newAttack) {
+      attack = newAttack;
+    }
+    function setRelease(newRelease) {
+      release = newRelease;
+    }
+
+    return {
+      audioContext,
+      masterGainNode,
+      context,
+      playNote,
+      stopNote,
+      setWaveform1,
+      setWaveform2,
+      setAttack,
+      setRelease,
+    };
   }, []);
 }
 

@@ -1,6 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
+
+import { allNotesMap } from "../../synthesis/notes";
 
 import ParameterControls from "./components/ParameterControls";
+import Arpeggiator from "./components/Arpeggiator";
 import Keys from "./components/Keys";
 
 import useKeys from "./hooks/useKeys";
@@ -27,8 +30,9 @@ function Keyboard({ synth }) {
     (e) => {
       if (e.buttons === 1) {
         const { note } = e.target.dataset;
+        const frequency = allNotesMap[note];
 
-        synth.playNote(waveform1, waveform2, attack, note);
+        synth.playNote(frequency);
 
         e.target.classList.add(keyStyles.KeyPressed);
       }
@@ -39,8 +43,9 @@ function Keyboard({ synth }) {
   const onNoteReleased = useCallback(
     (e) => {
       const { note } = e.target.dataset;
+      const frequency = allNotesMap[note];
 
-      synth.stopNote(release, note);
+      synth.stopNote(frequency);
 
       e.target.classList.remove(keyStyles.KeyPressed);
     },
@@ -48,6 +53,11 @@ function Keyboard({ synth }) {
   );
 
   useKeys({ onNotePressed, onNoteReleased });
+
+  useEffect(() => synth.setAttack(attack), [attack]);
+  useEffect(() => synth.setRelease(release), [release]);
+  useEffect(() => synth.setWaveform1(waveform1), [waveform1]);
+  useEffect(() => synth.setWaveform2(waveform2), [waveform2]);
 
   return (
     <div className={styles.KeyboardContainer}>
@@ -63,6 +73,13 @@ function Keyboard({ synth }) {
         handleReleaseChange={handleReleaseChange}
         handleWaveformChange1={handleWaveformChange1}
         handleWaveformChange2={handleWaveformChange2}
+      />
+      <Arpeggiator
+        synth={synth}
+        attack={attack}
+        release={release}
+        waveform1={waveform1}
+        waveform2={waveform2}
       />
       <Keys onNotePressed={onNotePressed} onNoteReleased={onNoteReleased} />
     </div>

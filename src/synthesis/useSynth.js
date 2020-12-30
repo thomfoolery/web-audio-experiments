@@ -1,15 +1,14 @@
 import { useMemo } from "react";
 
-function useSynth() {
+function useSynth(audioContext, destination) {
   return useMemo(() => {
-    const audioContext = new AudioContext();
-    const masterGainNode = audioContext.createGain();
+    const masterGain = audioContext.createGain();
     const context = {};
 
-    masterGainNode.connect(audioContext.destination);
+    masterGain.connect(destination);
 
     let waveform1 = "sine";
-    let waveform2 = "wave";
+    let waveform2 = "triangle";
     let attack = 0.2;
     let release = 0.2;
 
@@ -37,8 +36,8 @@ function useSynth() {
       osc1.connect(gain1);
       osc2.connect(gain2);
 
-      gain1.connect(masterGainNode);
-      gain2.connect(masterGainNode);
+      gain1.connect(masterGain);
+      gain2.connect(masterGain);
 
       osc1.frequency.value = frequency;
       osc2.frequency.value = frequency;
@@ -90,7 +89,7 @@ function useSynth() {
 
     return {
       audioContext,
-      masterGainNode,
+      masterGain,
       context,
       playNote,
       stopNote,
@@ -99,7 +98,7 @@ function useSynth() {
       setAttack,
       setRelease,
     };
-  }, []);
+  }, [audioContext, destination]);
 }
 
 export default useSynth;

@@ -3,28 +3,13 @@ import React, { memo } from "react";
 import styles from "./styles.module.css";
 
 function ParameterControls({
-  bpm,
   swing,
   volume,
-  handleChangeBpm,
   handleChangeSwing,
   handleChangeVolume,
 }) {
   return (
     <div className={styles.ParameterControls}>
-      <div className={styles.ParameterControl}>
-        <label>Tempo</label>
-        <input
-          type="range"
-          name="bpm"
-          step="1"
-          min="60"
-          max="260"
-          value={bpm}
-          onChange={handleChangeBpm}
-        />
-        <div>{bpm} BPM</div>
-      </div>
       <div className={styles.ParameterControl}>
         <label>Swing</label>
         <input

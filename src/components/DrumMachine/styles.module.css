@@ -1,36 +1,35 @@
 .DrumMachineContainer {
   background: #333;
-  color: white;
+  color: #aaa;
   padding: 10px;
   margin: 10px;
   user-select: none;
 }
 
-.DrumMachineHeader {
+.DrumMachinebody {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.ParameterControls {
+  display: flex;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
 }
 
-.DrumMachineButtons button {
-  width: 100px;
-  padding: 1em;
-  margin-bottom: 10px;
-}
-
-.DrumMachineButtons button + button {
-  margin-left: 10px;
-}
-
 .DrumMachineContainer h2 {
-  padding-bottom: 5px;
   margin: 0 0 10px 0;
-  border-bottom: 1px solid white;
-  font-weight: 100;
-  letter-spacing: -0.05em;
+  font-weight: 400;
+  letter-spacing: -0.07em;
 }
 
 .Sequencer {
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 5px 5px rgba(0, 0, 0, 0.25);
   overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }

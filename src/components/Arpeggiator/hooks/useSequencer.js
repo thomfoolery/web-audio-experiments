@@ -5,12 +5,7 @@ import { baseNotes } from "../../../synthesis/notes";
 const lookahead = 100; // ms
 const schedulerInterval = 25; // ms
 
-function useSequencer(
-  synth,
-  setIsPlaying,
-  setCurrentNote,
-  timeSignature = "4/4"
-) {
+function useSequencer(synth, setCurrentNote, timeSignature = "4/4") {
   return useMemo(() => {
     const { audioContext } = synth;
 
@@ -18,6 +13,16 @@ function useSequencer(
     const sequenceLength = beatsPerBar * notesPerBeat;
 
     let sequences = [
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
+      Array(sequenceLength).fill(false),
       Array(sequenceLength).fill(false),
       Array(sequenceLength).fill(false),
     ];
@@ -43,11 +48,16 @@ function useSequencer(
 
     function checkNote(sequence, index) {
       if (sequence[currentNote] === true) {
+        const secondsPerNote = 60 / (bpm * notesPerBeat);
         // eslint-disable-next-line no-unused-vars
         const [_, baseFrequency] = baseNotes[index];
         const frequency = baseFrequency * Math.pow(2, octave);
 
-        synth.playNote(frequency, audioContext.currentTime, hold);
+        synth.playNote(
+          frequency,
+          audioContext.currentTime,
+          secondsPerNote * hold
+        );
       }
     }
 
@@ -70,14 +80,12 @@ function useSequencer(
       nextNoteTime = audioContext.currentTime;
       currentNote = 0;
 
-      setIsPlaying(true);
       scheduler();
     }
 
     function stop() {
       clearTimeout(timerID);
       setCurrentNote(null);
-      setIsPlaying(false);
     }
 
     function setSequences(newSequence) {
@@ -104,7 +112,7 @@ function useSequencer(
       setOctave,
       setSequences,
     };
-  }, [synth, setIsPlaying, setCurrentNote, timeSignature]);
+  }, [synth, setCurrentNote, timeSignature]);
 }
 
 export default useSequencer;

@@ -1,5 +1,11 @@
 let noiseBuffer;
 
+function fillBuffer(output, bufferSize) {
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = Math.random() * 2 - 1;
+  }
+}
+
 function createNoiseBuffer(audioContext) {
   if (noiseBuffer) return noiseBuffer;
 
@@ -11,11 +17,9 @@ function createNoiseBuffer(audioContext) {
     audioContext.sampleRate
   );
 
-  const output = noiseBuffer.getChannelData(0);
+  const buffer = noiseBuffer.getChannelData(0);
 
-  for (let i = 0; i < bufferSize; i++) {
-    output[i] = Math.random() * 2 - 1;
-  }
+  fillBuffer(buffer, bufferSize);
 
   return noiseBuffer;
 }

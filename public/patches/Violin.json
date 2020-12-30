@@ -1,0 +1,155 @@
+{
+  "name": "Violin",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Destination",
+      "type": "DESTINATION",
+      "position": {
+        "x": 580,
+        "y": 180
+      },
+      "data": {
+        "type": "out",
+        "params": {}
+      }
+    },
+    {
+      "id": 1,
+      "name": "Osc",
+      "type": "SRC",
+      "position": {
+        "x": 180,
+        "y": 180
+      },
+      "data": {
+        "type": "Oscillator",
+        "params": {
+          "frequency": 993.8301836325433,
+          "detune": 0,
+          "type": "sawtooth"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "Filter",
+      "type": "EFFECT",
+      "position": {
+        "x": 480,
+        "y": 60
+      },
+      "data": {
+        "type": "Filter",
+        "params": {
+          "frequency": 3804.415245453969,
+          "Q": 3.2594832166974843,
+          "detune": 0,
+          "gain": 0,
+          "type": "lowpass"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "LFO",
+      "type": "CTRL",
+      "position": {
+        "x": 40,
+        "y": 300
+      },
+      "data": {
+        "type": "LFO",
+        "params": {
+          "frequency": 6.394086367108338,
+          "detune": 0,
+          "type": "sine"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "Gain Control",
+      "type": "CTRL",
+      "position": {
+        "x": 180,
+        "y": 300
+      },
+      "data": {
+        "type": "GainCtrl",
+        "params": {
+          "gain": 14
+        },
+        "controlParam": "frequency",
+        "controlParams": [
+          "frequency",
+          "detune"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "ADSR",
+      "type": "CTRL",
+      "position": {
+        "x": 360,
+        "y": 300
+      },
+      "data": {
+        "type": "ADSR",
+        "params": {
+          "attack": 0.2,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.17710363973300636,
+          "depth": 1
+        },
+        "controlParam": "gain",
+        "controlParams": [
+          "gain"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Gain",
+      "type": "EFFECT",
+      "position": {
+        "x": 360,
+        "y": 180
+      },
+      "data": {
+        "type": "Gain",
+        "params": {
+          "gain": 1
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": 2,
+      "targetId": 0
+    },
+    {
+      "sourceId": 4,
+      "targetId": 1
+    },
+    {
+      "sourceId": 6,
+      "targetId": 2
+    },
+    {
+      "sourceId": 3,
+      "targetId": 4
+    },
+    {
+      "sourceId": 1,
+      "targetId": 6
+    },
+    {
+      "sourceId": 5,
+      "targetId": 6
+    }
+  ]
+}

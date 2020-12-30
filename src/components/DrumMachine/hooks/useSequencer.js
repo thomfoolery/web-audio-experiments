@@ -3,12 +3,7 @@ import { useMemo } from "react";
 const lookahead = 100; // ms
 const schedulerInterval = 25; // ms
 
-function useSequencer(
-  synth,
-  setIsPlaying,
-  setCurrentNote,
-  timeSignature = "4/4"
-) {
+function useSequencer(synth, setCurrentNote, timeSignature = "4/4") {
   return useMemo(() => {
     const { audioContext } = synth;
 
@@ -68,18 +63,16 @@ function useSequencer(
       nextNoteTime = audioContext.currentTime;
       currentNote = 0;
 
-      setIsPlaying(true);
       scheduler();
     }
 
     function stop() {
       clearTimeout(timerID);
       setCurrentNote(null);
-      setIsPlaying(false);
     }
 
-    function setSequence(index, newSequence) {
-      sequences[index] = newSequence;
+    function setSequences(newSequence) {
+      sequences = newSequence;
     }
 
     function setSwing(newSwing) {
@@ -90,8 +83,8 @@ function useSequencer(
       bpm = newBpm;
     }
 
-    return { start, stop, setBpm, setSwing, setSequence };
-  }, [synth, setIsPlaying, setCurrentNote, timeSignature]);
+    return { start, stop, setBpm, setSwing, setSequences };
+  }, [synth, setCurrentNote, timeSignature]);
 }
 
 export default useSequencer;

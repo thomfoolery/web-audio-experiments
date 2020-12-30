@@ -1,17 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
-function useControls({ masterGainNode }) {
-  const [volume, setVolume] = useState(0.3);
+function useControls(synth) {
+  const [volume, setVolume] = useState(1);
   const [attack, setAttack] = useState(0.2);
   const [release, setRelease] = useState(0.2);
   const [waveform1, setWaveform1] = useState("sine");
-  const [waveform2, setWaveform2] = useState("square");
+  const [waveform2, setWaveform2] = useState("triangle");
 
   const handleVolumeChange = useCallback(
     (e) => {
-      masterGainNode.gain.value = e.target.value;
+      synth.masterGain.gain.value = e.target.value;
       setVolume(e.target.value);
     },
-    [masterGainNode]
+    [synth]
   );
 
   const handleAttackChange = useCallback(
@@ -34,10 +34,7 @@ function useControls({ masterGainNode }) {
     []
   );
 
-  useEffect(() => (masterGainNode.gain.value = volume), [
-    masterGainNode,
-    volume,
-  ]);
+  useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
 
   return {
     volume,

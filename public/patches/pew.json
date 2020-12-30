@@ -1,0 +1,69 @@
+{
+  "name": "Pew!",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Destination",
+      "type": "DESTINATION",
+      "position": {
+        "x": 460,
+        "y": 120
+      },
+      "data": {
+        "type": "out",
+        "params": {}
+      }
+    },
+    {
+      "id": 1,
+      "name": "Osc",
+      "type": "SRC",
+      "position": {
+        "x": 240,
+        "y": 120
+      },
+      "data": {
+        "type": "Oscillator",
+        "params": {
+          "frequency": 1195.6321071267505,
+          "detune": 0,
+          "type": "square"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "ADSR",
+      "type": "CTRL",
+      "position": {
+        "x": 240,
+        "y": 260
+      },
+      "data": {
+        "type": "ADSR",
+        "params": {
+          "attack": 0,
+          "decay": 0.5,
+          "sustain": 0,
+          "release": 0,
+          "depth": 1
+        },
+        "controlParam": "frequency",
+        "controlParams": [
+          "frequency",
+          "detune"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": 1,
+      "targetId": 0
+    },
+    {
+      "sourceId": 2,
+      "targetId": 1
+    }
+  ]
+}

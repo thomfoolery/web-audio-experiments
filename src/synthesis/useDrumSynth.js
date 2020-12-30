@@ -4,12 +4,11 @@ import kickDrum from "./kickDrum";
 import snareDrum from "./snareDrum";
 import hiHat from "./hiHat";
 
-function useSynth() {
+function useDrumSynth(audioContext, destination) {
   return useMemo(() => {
-    const audioContext = new AudioContext();
     const masterGain = audioContext.createGain();
 
-    masterGain.connect(audioContext.destination);
+    masterGain.connect(destination);
 
     function playKick(time) {
       kickDrum({ audioContext, masterGain }, time);
@@ -24,7 +23,7 @@ function useSynth() {
     }
 
     return { audioContext, masterGain, playKick, playSnare, playHiHat };
-  }, []);
+  }, [audioContext, destination]);
 }
 
-export default useSynth;
+export default useDrumSynth;

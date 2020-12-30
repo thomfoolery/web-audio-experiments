@@ -15,7 +15,7 @@ import styles from "./styles.module.css";
 
 const initialBpm = 120;
 const initialSwing = 0.5;
-const initialVolume = 0.3;
+const initialVolume = 1;
 
 function toggleSequenceNote(sequence, index) {
   const sequenceCopy = [...sequence];
@@ -24,144 +24,114 @@ function toggleSequenceNote(sequence, index) {
   return sequenceCopy;
 }
 
-function DrumMachine({ synth }) {
+function DrumMachine({ synth, connect }) {
   const [bpm, setBpm] = useState(initialBpm);
   const [swing, setSwing] = useState(initialSwing);
   const [volume, setVolume] = useState(initialVolume);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [currentNote, setCurrentNote] = useState(null);
 
-  const sequencer = useSequencer(synth, setIsPlaying, setCurrentNote);
+  const sequencer = useSequencer(synth, setCurrentNote);
+  const [sequences, setSequences] = useState([
+    initialKickSequence,
+    initialSnareSequence,
+    initialHiHatSequence,
+  ]);
 
-  const [kickSequence, setKickSequence] = useState(initialKickSequence);
-  const [snareSequence, setSnareSequence] = useState(initialSnareSequence);
-  const [hiHatSequence, setHiHatSequence] = useState(initialHiHatSequence);
+  const handleClickClear = useCallback(
+    () =>
+      setSequences([
+        Array(16).fill(false),
+        Array(16).fill(false),
+        Array(16).fill(false),
+      ]),
+    [setSequences]
+  );
 
-  const handleClickPlayStop = useCallback(() => {
-    if (isPlaying) {
-      sequencer.stop();
-    } else {
-      sequencer.start();
-    }
-  }, [isPlaying, sequencer]);
-
-  const handleClickClear = useCallback(() => {
-    setKickSequence(Array(16).fill(false));
-    setSnareSequence(Array(16).fill(false));
-    setHiHatSequence(Array(16).fill(false));
-  }, [setKickSequence]);
-
-  const handleChangeBpm = useCallback((e) => setBpm(e.target.value), []);
   const handleChangeSwing = useCallback((e) => setSwing(e.target.value), []);
   const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
 
-  const handleMouseDownKickNote = useCallback(
-    (index) => () =>
-      setKickSequence((sequence) => toggleSequenceNote(sequence, index)),
-    [setKickSequence]
+  const handleMouseDownNote = useCallback(
+    (sequenceIndex) => (noteIndex) => () =>
+      setSequences((sequences) => {
+        const oldSequence = sequences[sequenceIndex];
+        const newSequence = toggleSequenceNote(oldSequence, noteIndex);
+
+        return [
+          ...sequences.slice(0, sequenceIndex),
+          newSequence,
+          ...sequences.slice(sequenceIndex + 1),
+        ];
+      }),
+    [setSequences]
   );
 
-  const handleMouseDownSnareNote = useCallback(
-    (index) => () =>
-      setSnareSequence((sequence) => toggleSequenceNote(sequence, index)),
-    [setSnareSequence]
+  const handleMouseEnterNote = useCallback(
+    (sequenceIndex) => (noteIndex) => (e) =>
+      setSequences((sequences) => {
+        if (e.buttons === 1) {
+          const oldSequence = sequences[sequenceIndex];
+          const newSequence = toggleSequenceNote(oldSequence, noteIndex);
+
+          return [
+            ...sequences.slice(0, sequenceIndex),
+            newSequence,
+            ...sequences.slice(sequenceIndex + 1),
+          ];
+        }
+        return sequences;
+      }),
+    [setSequences]
   );
-
-  const handleMouseDownHiHatNote = useCallback(
-    (index) => () =>
-      setHiHatSequence((sequence) => toggleSequenceNote(sequence, index)),
-    [setHiHatSequence]
-  );
-
-  const handleMouseEnterKickNote = useCallback(
-    (index) => (e) => {
-      if (e.buttons === 1) {
-        setKickSequence((sequence) => toggleSequenceNote(sequence, index));
-      }
-    },
-    [setKickSequence]
-  );
-
-  const handleMouseEnterSnareNote = useCallback(
-    (index) => (e) => {
-      if (e.buttons === 1) {
-        setSnareSequence((sequence) => toggleSequenceNote(sequence, index));
-      }
-    },
-    [setSnareSequence]
-  );
-
-  const handleMouseEnterHiHatNote = useCallback(
-    (index) => (e) => {
-      if (e.buttons === 1) {
-        setHiHatSequence((sequence) => toggleSequenceNote(sequence, index));
-      }
-    },
-    [setHiHatSequence]
-  );
-
-  useEffect(() => sequencer.setSequence(0, kickSequence), [
-    sequencer,
-    kickSequence,
-  ]);
-
-  useEffect(() => sequencer.setSequence(1, snareSequence), [
-    sequencer,
-    snareSequence,
-  ]);
-
-  useEffect(() => sequencer.setSequence(2, hiHatSequence), [
-    sequencer,
-    hiHatSequence,
-  ]);
 
   useEffect(() => sequencer.setBpm(bpm), [sequencer, bpm]);
   useEffect(() => sequencer.setSwing(swing), [sequencer, swing]);
+  useEffect(() => sequencer.setSequences(sequences), [sequencer, sequences]);
   useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
+
+  useEffect(() => {
+    connect({ synth, sequencer, setBpm });
+  }, [synth, sequencer, connect]);
 
   return (
     <div className={styles.DrumMachineContainer}>
       <h2>DRUM MACHINE</h2>
 
-      <div className={styles.DrumMachineHeader}>
-        <div className={styles.DrumMachineButtons}>
-          <button onClick={handleClickPlayStop}>
-            {isPlaying ? "Stop" : "Play"}
-          </button>
-          <button onClick={handleClickClear}>Clear</button>
+      <div className={styles.DrumMachinebody}>
+        <div className={styles.Sequencer}>
+          <Sequence
+            label="Kick"
+            sequence={sequences[0]}
+            currentNote={currentNote}
+            handleMouseDownNote={handleMouseDownNote(0)}
+            handleMouseEnterNote={handleMouseEnterNote(0)}
+          />
+          <Sequence
+            label="Snare"
+            sequence={sequences[1]}
+            currentNote={currentNote}
+            handleMouseDownNote={handleMouseDownNote(1)}
+            handleMouseEnterNote={handleMouseEnterNote(1)}
+          />
+          <Sequence
+            label="Hi-hat"
+            sequence={sequences[2]}
+            currentNote={currentNote}
+            handleMouseDownNote={handleMouseDownNote(2)}
+            handleMouseEnterNote={handleMouseEnterNote(2)}
+          />
         </div>
-        <ParameterControls
-          bpm={bpm}
-          swing={swing}
-          volume={volume}
-          handleChangeBpm={handleChangeBpm}
-          handleChangeSwing={handleChangeSwing}
-          handleChangeVolume={handleChangeVolume}
-        />
-      </div>
 
-      <div className={styles.Sequencer}>
-        <Sequence
-          label="Kick"
-          sequence={kickSequence}
-          currentNote={currentNote}
-          handleMouseDownNote={handleMouseDownKickNote}
-          handleMouseEnterNote={handleMouseEnterKickNote}
-        />
-        <Sequence
-          label="Snare"
-          sequence={snareSequence}
-          currentNote={currentNote}
-          handleMouseDownNote={handleMouseDownSnareNote}
-          handleMouseEnterNote={handleMouseEnterSnareNote}
-        />
-        <Sequence
-          label="Hi-hat"
-          sequence={hiHatSequence}
-          currentNote={currentNote}
-          handleMouseDownNote={handleMouseDownHiHatNote}
-          handleMouseEnterNote={handleMouseEnterHiHatNote}
-        />
+        <div className={styles.ParameterControls}>
+          <ParameterControls
+            swing={swing}
+            volume={volume}
+            handleChangeSwing={handleChangeSwing}
+            handleChangeVolume={handleChangeVolume}
+          />
+          <div className={styles.DrumMachineButtons}>
+            <button onClick={handleClickClear}>Clear</button>
+          </div>
+        </div>
       </div>
     </div>
   );

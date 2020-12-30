@@ -1,0 +1,79 @@
+{
+  "name": "Smurf & Shrek",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Destination",
+      "type": "DESTINATION",
+      "position": {
+        "x": 540,
+        "y": 160
+      },
+      "data": {
+        "type": "out",
+        "params": {}
+      }
+    },
+    {
+      "id": 2,
+      "name": "Line In",
+      "type": "SRC",
+      "position": {
+        "x": 60,
+        "y": 160
+      },
+      "data": {
+        "type": "LineIn",
+        "params": {}
+      }
+    },
+    {
+      "id": 3,
+      "name": "Pitch Shifter",
+      "type": "EFFECT",
+      "position": {
+        "x": 220,
+        "y": 160
+      },
+      "data": {
+        "type": "Detuner",
+        "params": {
+          "octave": 1
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "Filter",
+      "type": "EFFECT",
+      "position": {
+        "x": 380,
+        "y": 160
+      },
+      "data": {
+        "type": "Filter",
+        "params": {
+          "frequency": 2027.5101224010734,
+          "Q": 0,
+          "detune": 0,
+          "gain": 0,
+          "type": "lowpass"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": 4,
+      "targetId": 0
+    },
+    {
+      "sourceId": 2,
+      "targetId": 3
+    },
+    {
+      "sourceId": 3,
+      "targetId": 4
+    }
+  ]
+}

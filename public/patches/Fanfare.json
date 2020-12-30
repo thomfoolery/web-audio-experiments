@@ -1,0 +1,134 @@
+{
+  "name": "Fanfare",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Destination",
+      "type": "DESTINATION",
+      "position": {
+        "x": 520,
+        "y": 180
+      },
+      "data": {
+        "type": "out",
+        "params": {}
+      }
+    },
+    {
+      "id": 1,
+      "name": "Filter",
+      "type": "EFFECT",
+      "position": {
+        "x": 320,
+        "y": 180
+      },
+      "data": {
+        "type": "Filter",
+        "params": {
+          "frequency": 8500,
+          "Q": 5.757546424865723,
+          "detune": 0,
+          "gain": 0,
+          "type": "lowpass"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "Osc",
+      "type": "SRC",
+      "position": {
+        "x": 100,
+        "y": 120
+      },
+      "data": {
+        "type": "Oscillator",
+        "params": {
+          "frequency": 220,
+          "detune": 0,
+          "type": "sawtooth"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "Osc",
+      "type": "SRC",
+      "position": {
+        "x": 100,
+        "y": 240
+      },
+      "data": {
+        "type": "Oscillator",
+        "params": {
+          "frequency": 220,
+          "detune": 500,
+          "type": "sawtooth"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "Gain",
+      "type": "EFFECT",
+      "position": {
+        "x": 420,
+        "y": 60
+      },
+      "data": {
+        "type": "Gain",
+        "params": {
+          "gain": 0.6800000071525574
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "ADSR",
+      "type": "CTRL",
+      "position": {
+        "x": 320,
+        "y": 320
+      },
+      "data": {
+        "type": "ADSR",
+        "params": {
+          "attack": 0.40228525869896803,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 1,
+          "depth": 0.99
+        },
+        "controlParam": "frequency",
+        "controlParams": [
+          "frequency",
+          "Q",
+          "detune",
+          "gain"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": 4,
+      "targetId": 0
+    },
+    {
+      "sourceId": 2,
+      "targetId": 1
+    },
+    {
+      "sourceId": 3,
+      "targetId": 1
+    },
+    {
+      "sourceId": 5,
+      "targetId": 1
+    },
+    {
+      "sourceId": 1,
+      "targetId": 4
+    }
+  ]
+}

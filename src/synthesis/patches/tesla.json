@@ -1,16 +1,16 @@
 {
-  "name": "Space",
+  "name": "Tesla",
   "nodes": [
     {
       "id": 0,
       "name": "Destination",
       "type": "DESTINATION",
       "position": {
-        "x": 600,
-        "y": 200
+        "x": 520,
+        "y": 160
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
@@ -19,14 +19,14 @@
       "name": "Filter",
       "type": "EFFECT",
       "position": {
-        "x": 300,
-        "y": 200
+        "x": 320,
+        "y": 160
       },
       "data": {
-        "type": "Filter",
+        "type": "FILTER",
         "params": {
-          "frequency": 3500,
-          "Q": 7.5,
+          "frequency": 3804.415245453969,
+          "Q": 9.284478953499399,
           "detune": 0,
           "gain": 0,
           "type": "lowpass"
@@ -36,13 +36,13 @@
     {
       "id": 2,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 140,
-        "y": 160
+        "y": 100
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 140,
           "detune": 0,
@@ -53,13 +53,13 @@
     {
       "id": 3,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 140,
-        "y": 260
+        "y": 220
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 140,
           "detune": 10,
@@ -72,32 +72,32 @@
       "name": "Gain",
       "type": "EFFECT",
       "position": {
-        "x": 460,
-        "y": 200
+        "x": 420,
+        "y": 60
       },
       "data": {
-        "type": "Gain",
+        "type": "GAIN",
         "params": {
-          "gain": 0.32
+          "gain": 0.6800000071525574
         }
       }
     },
     {
       "id": 5,
       "name": "ADSR",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
-        "x": 300,
+        "x": 320,
         "y": 300
       },
       "data": {
         "type": "ADSR",
         "params": {
-          "attack": 0,
+          "attack": 0.40228525869896803,
           "decay": 0.5,
           "sustain": 1,
-          "release": 2,
-          "depth": 0.999
+          "release": 1,
+          "depth": 0.99
         },
         "controlParam": "frequency",
         "controlParams": [
@@ -105,57 +105,6 @@
           "Q",
           "detune",
           "gain"
-        ]
-      }
-    },
-    {
-      "id": 6,
-      "name": "Delay",
-      "type": "EFFECT",
-      "position": {
-        "x": 460,
-        "y": 60
-      },
-      "data": {
-        "type": "Delay",
-        "params": {
-          "delayTime": 0.05
-        }
-      }
-    },
-    {
-      "id": 7,
-      "name": "Pan",
-      "type": "EFFECT",
-      "position": {
-        "x": 300,
-        "y": 60
-      },
-      "data": {
-        "type": "StereoPan",
-        "params": {
-          "pan": 0
-        }
-      }
-    },
-    {
-      "id": 9,
-      "name": "LFO",
-      "type": "CTRL",
-      "position": {
-        "x": 140,
-        "y": 60
-      },
-      "data": {
-        "type": "LFO",
-        "params": {
-          "frequency": 0.4442202913671254,
-          "detune": 0,
-          "type": "sine"
-        },
-        "controlParam": "pan",
-        "controlParams": [
-          "pan"
         ]
       }
     }
@@ -178,24 +127,8 @@
       "targetId": 1
     },
     {
-      "sourceId": 7,
-      "targetId": 1
-    },
-    {
       "sourceId": 1,
       "targetId": 4
-    },
-    {
-      "sourceId": 4,
-      "targetId": 6
-    },
-    {
-      "sourceId": 6,
-      "targetId": 7
-    },
-    {
-      "sourceId": 9,
-      "targetId": 7
     }
   ]
 }

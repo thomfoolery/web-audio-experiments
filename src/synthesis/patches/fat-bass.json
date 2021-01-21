@@ -1,5 +1,5 @@
 {
-  "name": "Tesla",
+  "name": "Fat Bass",
   "nodes": [
     {
       "id": 0,
@@ -10,7 +10,7 @@
         "y": 160
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
@@ -23,10 +23,10 @@
         "y": 160
       },
       "data": {
-        "type": "Filter",
+        "type": "FILTER",
         "params": {
-          "frequency": 3804.415245453969,
-          "Q": 9.284478953499399,
+          "frequency": 2000,
+          "Q": 21.8,
           "detune": 0,
           "gain": 0,
           "type": "lowpass"
@@ -35,14 +35,14 @@
     },
     {
       "id": 2,
-      "name": "Osc",
-      "type": "SRC",
+      "name": "Osc 1",
+      "type": "SOURCE",
       "position": {
         "x": 140,
         "y": 100
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 140,
           "detune": 0,
@@ -52,16 +52,16 @@
     },
     {
       "id": 3,
-      "name": "Osc",
-      "type": "SRC",
+      "name": "Osc 2",
+      "type": "SOURCE",
       "position": {
         "x": 140,
         "y": 220
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
-          "frequency": 140,
+          "frequency": 280,
           "detune": 10,
           "type": "sawtooth"
         }
@@ -76,34 +76,31 @@
         "y": 60
       },
       "data": {
-        "type": "Gain",
+        "type": "GAIN",
         "params": {
-          "gain": 0.6800000071525574
+          "gain": 0.68
         }
       }
     },
     {
       "id": 5,
       "name": "ADSR",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
-        "x": 320,
-        "y": 300
+        "x": 420,
+        "y": 280
       },
       "data": {
         "type": "ADSR",
         "params": {
-          "attack": 0.40228525869896803,
+          "attack": 0,
           "decay": 0.5,
           "sustain": 1,
-          "release": 1,
-          "depth": 0.99
+          "release": 0.205,
+          "depth": 0.98
         },
-        "controlParam": "frequency",
+        "controlParam": "gain",
         "controlParams": [
-          "frequency",
-          "Q",
-          "detune",
           "gain"
         ]
       }
@@ -123,11 +120,11 @@
       "targetId": 1
     },
     {
-      "sourceId": 5,
-      "targetId": 1
+      "sourceId": 1,
+      "targetId": 4
     },
     {
-      "sourceId": 1,
+      "sourceId": 5,
       "targetId": 4
     }
   ]

@@ -10,20 +10,20 @@
         "y": 120
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
     {
       "id": 1,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 240,
         "y": 120
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 1195.6321071267505,
           "detune": 0,
@@ -34,7 +34,7 @@
     {
       "id": 2,
       "name": "ADSR",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
         "x": 240,
         "y": 260

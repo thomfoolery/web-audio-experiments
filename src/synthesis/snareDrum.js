@@ -1,34 +1,9 @@
-let noiseBuffer;
-
-function fillBuffer(output, bufferSize) {
-  for (let i = 0; i < bufferSize; i++) {
-    output[i] = Math.random() * 2 - 1;
-  }
-}
-
-function createNoiseBuffer(audioContext) {
-  if (noiseBuffer) return noiseBuffer;
-
-  const bufferSize = audioContext.sampleRate;
-
-  noiseBuffer = audioContext.createBuffer(
-    1,
-    bufferSize,
-    audioContext.sampleRate
-  );
-
-  const buffer = noiseBuffer.getChannelData(0);
-
-  fillBuffer(buffer, bufferSize);
-
-  return noiseBuffer;
-}
+import createNoiseSource from './createNoiseSource';
 
 function snareDrum(synth, time) {
-  const { audioContext, masterGain } = synth;
-  const noiseSource = audioContext.createBufferSource();
+  const {audioContext, masterGain} = synth;
   const noiseFilter = audioContext.createBiquadFilter();
-  const noiseBuffer = createNoiseBuffer(audioContext);
+  const noiseSource = createNoiseSource(audioContext);
   const noiseEnvelope = audioContext.createGain();
   const oscEnvelope = audioContext.createGain();
   const osc = audioContext.createOscillator();
@@ -36,8 +11,7 @@ function snareDrum(synth, time) {
   const noiseRelease = 0.2;
   const oscRelease = 0.1;
 
-  noiseSource.buffer = noiseBuffer;
-  noiseFilter.type = "highpass";
+  noiseFilter.type = 'highpass';
   noiseFilter.frequency.value = 1000;
 
   noiseSource.connect(noiseFilter);
@@ -47,7 +21,7 @@ function snareDrum(synth, time) {
   noiseEnvelope.gain.value = 1;
   noiseEnvelope.gain.exponentialRampToValueAtTime(0.01, time + noiseRelease);
 
-  osc.type = "triangle";
+  osc.type = 'triangle';
   osc.connect(oscEnvelope);
   oscEnvelope.connect(masterGain);
 

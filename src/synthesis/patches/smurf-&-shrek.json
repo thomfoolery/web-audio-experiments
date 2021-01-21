@@ -10,20 +10,20 @@
         "y": 160
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
     {
       "id": 2,
       "name": "Line In",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 60,
         "y": 160
       },
       "data": {
-        "type": "LineIn",
+        "type": "LINEIN",
         "params": {}
       }
     },
@@ -36,7 +36,7 @@
         "y": 160
       },
       "data": {
-        "type": "Detuner",
+        "type": "DETUNER",
         "params": {
           "octave": 1
         }
@@ -51,7 +51,7 @@
         "y": 160
       },
       "data": {
-        "type": "Filter",
+        "type": "FILTER",
         "params": {
           "frequency": 2027.5101224010734,
           "Q": 0,

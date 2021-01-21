@@ -10,7 +10,7 @@
         "y": 180
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
@@ -23,7 +23,7 @@
         "y": 180
       },
       "data": {
-        "type": "Filter",
+        "type": "FILTER",
         "params": {
           "frequency": 8500,
           "Q": 5.757546424865723,
@@ -36,13 +36,13 @@
     {
       "id": 2,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 100,
         "y": 120
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 220,
           "detune": 0,
@@ -53,13 +53,13 @@
     {
       "id": 3,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 100,
         "y": 240
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 220,
           "detune": 500,
@@ -76,7 +76,7 @@
         "y": 60
       },
       "data": {
-        "type": "Gain",
+        "type": "GAIN",
         "params": {
           "gain": 0.6800000071525574
         }
@@ -85,7 +85,7 @@
     {
       "id": 5,
       "name": "ADSR",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
         "x": 320,
         "y": 320

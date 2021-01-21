@@ -1,10 +1,13 @@
 {
   "Bells": "Bells.json",
   "Fanfare": "Fanfare.json",
+  "Fat Bass": "Fat Bass.json",
   "Pew!": "Pew.json",
   "Robot": "Robot.json",
+  "Simple FM": "Simple FM.json",
   "Smurf & Shrek": "Smurf & Shrek.json",
   "Space": "Space.json",
+  "TB-303": "TB-303.json",
   "Tesla": "Tesla.json",
   "Violin": "Violin.json",
   "Wind": "Wind.json"

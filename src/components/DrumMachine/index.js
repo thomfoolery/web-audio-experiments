@@ -1,17 +1,19 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, {useState, useCallback, useEffect} from 'react';
 
-import useSequencer from "./hooks/useSequencer";
+import useSequencer from './hooks/useSequencer';
 
-import Sequence from "./components/Sequence";
-import ParameterControls from "./components/ParameterControls";
+import Sequence from './components/Sequence';
+import ParameterControls from './components/ParameterControls';
+
+import useDrumSynth from '../../synthesis/useDrumSynth';
 
 import {
   initialKickSequence,
   initialSnareSequence,
   initialHiHatSequence,
-} from "./initialSequences";
+} from './initialSequences';
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
 
 const initialBpm = 120;
 const initialSwing = 0.5;
@@ -24,7 +26,9 @@ function toggleSequenceNote(sequence, index) {
   return sequenceCopy;
 }
 
-function DrumMachine({ synth, connect }) {
+function DrumMachine({connect, analyser, audioContext}) {
+  const synth = useDrumSynth(audioContext, analyser);
+
   const [bpm, setBpm] = useState(initialBpm);
   const [swing, setSwing] = useState(initialSwing);
   const [volume, setVolume] = useState(initialVolume);
@@ -44,15 +48,15 @@ function DrumMachine({ synth, connect }) {
         Array(16).fill(false),
         Array(16).fill(false),
       ]),
-    [setSequences]
+    [setSequences],
   );
 
-  const handleChangeSwing = useCallback((e) => setSwing(e.target.value), []);
-  const handleChangeVolume = useCallback((e) => setVolume(e.target.value), []);
+  const handleChangeSwing = useCallback(e => setSwing(e.target.value), []);
+  const handleChangeVolume = useCallback(e => setVolume(e.target.value), []);
 
   const handleMouseDownNote = useCallback(
-    (sequenceIndex) => (noteIndex) => () =>
-      setSequences((sequences) => {
+    sequenceIndex => noteIndex => () =>
+      setSequences(sequences => {
         const oldSequence = sequences[sequenceIndex];
         const newSequence = toggleSequenceNote(oldSequence, noteIndex);
 
@@ -62,12 +66,12 @@ function DrumMachine({ synth, connect }) {
           ...sequences.slice(sequenceIndex + 1),
         ];
       }),
-    [setSequences]
+    [setSequences],
   );
 
   const handleMouseEnterNote = useCallback(
-    (sequenceIndex) => (noteIndex) => (e) =>
-      setSequences((sequences) => {
+    sequenceIndex => noteIndex => e =>
+      setSequences(sequences => {
         if (e.buttons === 1) {
           const oldSequence = sequences[sequenceIndex];
           const newSequence = toggleSequenceNote(oldSequence, noteIndex);
@@ -80,7 +84,7 @@ function DrumMachine({ synth, connect }) {
         }
         return sequences;
       }),
-    [setSequences]
+    [setSequences],
   );
 
   useEffect(() => sequencer.setBpm(bpm), [sequencer, bpm]);
@@ -89,7 +93,7 @@ function DrumMachine({ synth, connect }) {
   useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
 
   useEffect(() => {
-    connect({ synth, sequencer, setBpm });
+    connect({synth, sequencer, setBpm});
   }, [synth, sequencer, connect]);
 
   return (

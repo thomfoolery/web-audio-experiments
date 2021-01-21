@@ -10,20 +10,20 @@
         "y": 160
       },
       "data": {
-        "type": "out",
+        "type": "OUT",
         "params": {}
       }
     },
     {
       "id": 1,
       "name": "Osc",
-      "type": "SRC",
+      "type": "SOURCE",
       "position": {
         "x": 80,
         "y": 40
       },
       "data": {
-        "type": "Oscillator",
+        "type": "OSCILLATOR",
         "params": {
           "frequency": 700,
           "detune": 0,
@@ -40,7 +40,7 @@
         "y": 160
       },
       "data": {
-        "type": "Gain",
+        "type": "GAIN",
         "params": {
           "gain": 0.2
         }
@@ -49,7 +49,7 @@
     {
       "id": 3,
       "name": "LFO",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
         "x": 240,
         "y": 40
@@ -66,13 +66,13 @@
     {
       "id": 4,
       "name": "Gain Control",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
         "x": 380,
         "y": 40
       },
       "data": {
-        "type": "GainCtrl",
+        "type": "GAINCTRL",
         "params": {
           "gain": 0.2
         },
@@ -91,7 +91,7 @@
         "y": 160
       },
       "data": {
-        "type": "Filter",
+        "type": "FILTER",
         "params": {
           "frequency": 1856.2509043867556,
           "Q": 2.041175275711987,
@@ -104,7 +104,7 @@
     {
       "id": 6,
       "name": "ADSR",
-      "type": "CTRL",
+      "type": "CONTROL",
       "position": {
         "x": 80,
         "y": 280
@@ -133,7 +133,7 @@
         "y": 160
       },
       "data": {
-        "type": "Gain",
+        "type": "GAIN",
         "params": {
           "gain": 1
         }

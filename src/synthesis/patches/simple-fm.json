@@ -1,0 +1,155 @@
+{
+  "name": "Simple FM",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "Destination",
+      "type": "DESTINATION",
+      "position": {
+        "x": 560,
+        "y": 220
+      },
+      "data": {
+        "type": "OUT",
+        "params": {}
+      }
+    },
+    {
+      "id": 1,
+      "name": "Osc",
+      "type": "SOURCE",
+      "position": {
+        "x": 60,
+        "y": 220
+      },
+      "data": {
+        "type": "OSCILLATOR",
+        "params": {
+          "frequency": 220,
+          "detune": 0,
+          "type": "sine"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "LFO",
+      "type": "CONTROL",
+      "position": {
+        "x": 60,
+        "y": 20
+      },
+      "data": {
+        "type": "LFO",
+        "params": {
+          "frequency": 2200,
+          "detune": 0,
+          "type": "sine"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "Gain Control",
+      "type": "CONTROL",
+      "position": {
+        "x": 60,
+        "y": 120
+      },
+      "data": {
+        "type": "GAINCTRL",
+        "params": {
+          "gain": 500
+        },
+        "controlParam": "frequency",
+        "controlParams": [
+          "frequency",
+          "detune"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Filter",
+      "type": "EFFECT",
+      "position": {
+        "x": 400,
+        "y": 220
+      },
+      "data": {
+        "type": "FILTER",
+        "params": {
+          "frequency": 2000,
+          "Q": 0,
+          "detune": 0,
+          "gain": 0,
+          "type": "lowpass"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name": "Gain",
+      "type": "EFFECT",
+      "position": {
+        "x": 260,
+        "y": 220
+      },
+      "data": {
+        "type": "GAIN",
+        "params": {
+          "gain": 1
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "ADSR",
+      "type": "CONTROL",
+      "position": {
+        "x": 260,
+        "y": 320
+      },
+      "data": {
+        "type": "ADSR",
+        "params": {
+          "attack": 0,
+          "decay": 0.1,
+          "sustain": 0.5,
+          "release": 1,
+          "depth": 1
+        },
+        "controlParam": "gain",
+        "controlParams": [
+          "gain"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": 5,
+      "targetId": 0
+    },
+    {
+      "sourceId": 4,
+      "targetId": 1
+    },
+    {
+      "sourceId": 3,
+      "targetId": 4
+    },
+    {
+      "sourceId": 6,
+      "targetId": 5
+    },
+    {
+      "sourceId": 7,
+      "targetId": 6
+    },
+    {
+      "sourceId": 1,
+      "targetId": 6
+    }
+  ]
+}

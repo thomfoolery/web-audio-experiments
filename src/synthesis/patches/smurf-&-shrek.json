@@ -65,15 +65,18 @@
   "edges": [
     {
       "sourceId": 4,
-      "targetId": 0
+      "targetId": 0,
+      "id": 0
     },
     {
       "sourceId": 2,
-      "targetId": 3
+      "targetId": 3,
+      "id": 1
     },
     {
       "sourceId": 3,
-      "targetId": 4
+      "targetId": 4,
+      "id": 2
     }
   ]
 }

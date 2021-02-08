@@ -37,6 +37,8 @@
 }
 
 .Sequences {
+  display: flex;
+  flex-direction: column-reverse;
   padding: 5px 0;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -73,7 +75,7 @@
 }
 
 .Note::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 50%;
   top: 50%;

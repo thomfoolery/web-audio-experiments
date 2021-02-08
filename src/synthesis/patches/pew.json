@@ -59,11 +59,13 @@
   "edges": [
     {
       "sourceId": 1,
-      "targetId": 0
+      "targetId": 0,
+      "id": 0
     },
     {
       "sourceId": 2,
-      "targetId": 1
+      "targetId": 1,
+      "id": 1
     }
   ]
 }

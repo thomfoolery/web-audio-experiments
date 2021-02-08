@@ -1,5 +1,7 @@
-import React, {useRef, useState, useCallback, useEffect} from 'react';
+import React, {useRef, useMemo, useState, useCallback, useEffect} from 'react';
 
+import Modal from '../Modal';
+import PatchGraph from '../PatchGraph';
 import Arpeggiator from '../Arpeggiator';
 
 import {allNotesMap} from '../../synthesis/notes';
@@ -49,14 +51,28 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
   const synth = useComposeSynth(audioContext, analyser);
 
   const setIsPlayingCBs = useRef([]);
-  const [volume, setVolume] = useState(10);
+  const [volume, setVolume] = useState(1);
+  const [isEditPatchModalOpen, setIsEditPatchModalOpen] = useState(false);
   const [isArpVisible, setIsArpVisible] = useState(false);
+
+  const [, patch] = useMemo(
+    () => patches.find(([name]) => name === patchName),
+    [patchName],
+  );
 
   const handleChangePatch = useCallback(event => {
     setPatchName(event.target.value);
   }, []);
 
   const handleChangeVolume = useCallback(e => setVolume(e.target.value), []);
+  const handleOpenEditPatchModal = useCallback(
+    () => setIsEditPatchModalOpen(true),
+    [],
+  );
+  const handleCloseEditPatchModal = useCallback(
+    () => setIsEditPatchModalOpen(false),
+    [],
+  );
 
   const toggleIsArpVisible = useCallback(
     () => setIsArpVisible(isArpVisible => !isArpVisible),
@@ -113,12 +129,8 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
     });
   }, [isPlaying, isArpVisible]);
 
-  useEffect(() => {
-    const [, patch] = patches.find(([name]) => name === patchName);
-    synth.setPatch(patch);
-  }, [patchName]);
-
   useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
+  useEffect(() => synth.setPatch(patch), [patch]);
 
   return (
     <div className={styles.KeyboardContainer}>
@@ -134,6 +146,13 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
               </option>
             ))}
           </select>
+          <button onClick={handleOpenEditPatchModal}>Edit</button>
+          <Modal
+            isOpen={isEditPatchModalOpen}
+            onClose={handleCloseEditPatchModal}
+          >
+            <PatchGraph patch={patch} />
+          </Modal>
         </div>
         <div className={styles.ParameterControls}>
           <div className={styles.ParameterControl}>

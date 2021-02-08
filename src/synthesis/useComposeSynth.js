@@ -191,7 +191,7 @@ function useComposeSynth(audioContext, destination) {
         });
       }
 
-      memory.notes = memory.notes.filter(note => frequency != note.frequency);
+      memory.notes = memory.notes.filter(note => frequency !== note.frequency);
     }
 
     function setPatch(newPatch) {

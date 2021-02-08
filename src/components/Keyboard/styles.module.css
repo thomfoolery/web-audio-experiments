@@ -48,10 +48,11 @@
   margin-right: 10px;
 }
 
-.KeyboardContainer label {
+.KeyboardBody label {
   margin: 0 5px;
 }
-.KeyboardContainer select {
+
+.KeyboardBody select {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
@@ -59,6 +60,11 @@
   border-radius: 4px;
   margin-left: 5px;
   text-transform: uppercase;
+}
+
+.KeyboardBody button {
+  padding: 0.5em;
+  margin-left: 10px;
 }
 
 .ArpeggiatorContainer {

@@ -49,17 +49,19 @@ fs.readdirSync('./src/synthesis/patches/modulator', {
         data: normalizeNodeData(nodeData[index]),
       };
     }),
-    edges: nodes.reduce((acc, {id, inputs}) => {
-      if (inputs.length > 0) {
-        return acc.concat(
-          inputs.map(sourceId => ({
-            sourceId,
-            targetId: id,
-          })),
-        );
-      }
-      return acc;
-    }, []),
+    edges: nodes
+      .reduce((acc, {id, inputs}) => {
+        if (inputs.length > 0) {
+          return acc.concat(
+            inputs.map(sourceId => ({
+              sourceId,
+              targetId: id,
+            })),
+          );
+        }
+        return acc;
+      }, [])
+      .map((edge, index) => ({...edge, id: index})),
   };
 
   const json = JSON.stringify(obj, null, 2);

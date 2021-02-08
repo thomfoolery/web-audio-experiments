@@ -24,6 +24,43 @@
   letter-spacing: -0.07em;
 }
 
+.KeyboardBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ParameterControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  margin: 5px;
+}
+
+.ParameterControl label {
+  width: 100px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.ParameterControl input {
+  margin-right: 10px;
+}
+
+.KeyboardContainer label {
+  margin: 0 5px;
+}
+.KeyboardContainer select {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5em;
+  border-radius: 4px;
+  margin-left: 5px;
+  text-transform: uppercase;
+}
+
 .ArpeggiatorContainer {
   background-color: rgba(255, 255, 255, 0.05);
   margin: 0 5px;

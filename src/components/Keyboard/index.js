@@ -49,11 +49,14 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
   const synth = useComposeSynth(audioContext, analyser);
 
   const setIsPlayingCBs = useRef([]);
+  const [volume, setVolume] = useState(10);
   const [isArpVisible, setIsArpVisible] = useState(false);
 
   const handleChangePatch = useCallback(event => {
     setPatchName(event.target.value);
   }, []);
+
+  const handleChangeVolume = useCallback(e => setVolume(e.target.value), []);
 
   const toggleIsArpVisible = useCallback(
     () => setIsArpVisible(isArpVisible => !isArpVisible),
@@ -115,16 +118,39 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
     synth.setPatch(patch);
   }, [patchName]);
 
+  useEffect(() => (synth.masterGain.gain.value = volume), [synth, volume]);
+
   return (
     <div className={styles.KeyboardContainer}>
       <h2>KEYBOARD</h2>
-      <select onChange={handleChangePatch} value={patchName}>
-        {patches.map(([name]) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
+
+      <div className={styles.KeyboardBody}>
+        <div>
+          <label htmlFor="patch">Patch</label>
+          <select id="patch" onChange={handleChangePatch} value={patchName}>
+            {patches.map(([name]) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className={styles.ParameterControls}>
+          <div className={styles.ParameterControl}>
+            <label>Volume</label>
+            <input
+              type="range"
+              name="volume"
+              step="0.1"
+              min="0"
+              max="1"
+              value={volume}
+              onChange={handleChangeVolume}
+            />
+            <div>{volume * 10}/10</div>
+          </div>
+        </div>
+      </div>
       <div className={styles.ArpeggiatorContainer}>
         <div className={styles.ArpeggiatorHeader}>
           <h3>Arpeggiator</h3>

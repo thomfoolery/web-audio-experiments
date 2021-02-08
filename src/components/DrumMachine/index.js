@@ -3,7 +3,6 @@ import React, {useState, useCallback, useEffect} from 'react';
 import useSequencer from './hooks/useSequencer';
 
 import Sequence from './components/Sequence';
-import ParameterControls from './components/ParameterControls';
 
 import useDrumSynth from '../../synthesis/useDrumSynth';
 
@@ -100,7 +99,7 @@ function DrumMachine({connect, analyser, audioContext}) {
     <div className={styles.DrumMachineContainer}>
       <h2>DRUM MACHINE</h2>
 
-      <div className={styles.DrumMachinebody}>
+      <div className={styles.DrumMachineBody}>
         <div className={styles.Sequencer}>
           <Sequence
             label="Kick"
@@ -126,12 +125,34 @@ function DrumMachine({connect, analyser, audioContext}) {
         </div>
 
         <div className={styles.ParameterControls}>
-          <ParameterControls
-            swing={swing}
-            volume={volume}
-            handleChangeSwing={handleChangeSwing}
-            handleChangeVolume={handleChangeVolume}
-          />
+          <div className={styles.ParameterControls}>
+            <div className={styles.ParameterControl}>
+              <label>Swing</label>
+              <input
+                type="range"
+                name="swing"
+                step="0.01"
+                min="0"
+                max="1"
+                value={swing}
+                onChange={handleChangeSwing}
+              />
+              <div>{(swing * 100).toFixed(0) - 50} %</div>
+            </div>
+            <div className={styles.ParameterControl}>
+              <label>Volume</label>
+              <input
+                type="range"
+                name="volume"
+                step="0.1"
+                min="0"
+                max="1"
+                value={volume}
+                onChange={handleChangeVolume}
+              />
+              <div>{volume * 10}/10</div>
+            </div>
+          </div>
           <div className={styles.DrumMachineButtons}>
             <button onClick={handleClickClear}>Clear</button>
           </div>

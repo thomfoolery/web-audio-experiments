@@ -6,7 +6,7 @@
   user-select: none;
 }
 
-.DrumMachinebody {
+.DrumMachineBody {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,6 +17,24 @@
   flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+}
+
+.ParameterControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  margin: 5px;
+}
+
+.ParameterControl label {
+  width: 100px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.ParameterControl input {
+  margin-right: 10px;
 }
 
 .DrumMachineContainer h2 {

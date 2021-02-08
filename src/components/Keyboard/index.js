@@ -4,13 +4,11 @@ import Arpeggiator from '../Arpeggiator';
 
 import {allNotesMap} from '../../synthesis/notes';
 
-// import ParameterControls from './components/ParameterControls';
-
 import Keys from './components/Keys';
 
 import useKeys from './hooks/useKeys';
-// import useControls from './hooks/useControls';
 
+import useComposeSynth from '../../synthesis/useComposeSynth';
 import wind from '../../synthesis/patches/wind.json';
 import bells from '../../synthesis/patches/bells.json';
 import fanfare from '../../synthesis/patches/fanfare.json';
@@ -19,7 +17,6 @@ import simpleFm from '../../synthesis/patches/simple-fm.json';
 import tb303 from '../../synthesis/patches/tb-303.json';
 import tesla from '../../synthesis/patches/tesla.json';
 import violin from '../../synthesis/patches/violin.json';
-import useComposeSynth from '../../synthesis/useComposeSynth';
 import pew from '../../synthesis/patches/pew.json';
 // import robot from '../../synthesis/patches/robot.json';
 // import smurfShrek from '../../synthesis/patches/smurf-&-shrek.json';
@@ -44,29 +41,18 @@ const patches = [
   // ['space', space],
 ];
 
-function Keyboard({isPlaying, connect, analyser, audioContext}) {
-  const [patch, setPatch] = useState(patches[0][1]);
-  const synth = useComposeSynth(audioContext, analyser, patch);
+const [firstPatchDef] = patches;
+const intitialPatchName = firstPatchDef[0];
 
-  // const {
-  //   volume,
-  //   attack,
-  //   release,
-  //   waveform1,
-  //   waveform2,
-  //   handleVolumeChange,
-  //   handleAttackChange,
-  //   handleReleaseChange,
-  //   handleWaveformChange1,
-  //   handleWaveformChange2,
-  // } = useControls(synth);
+function Keyboard({isPlaying, connect, analyser, audioContext}) {
+  const [patchName, setPatchName] = useState(intitialPatchName);
+  const synth = useComposeSynth(audioContext, analyser);
 
   const setIsPlayingCBs = useRef([]);
   const [isArpVisible, setIsArpVisible] = useState(false);
 
   const handleChangePatch = useCallback(event => {
-    const patch = patches.find(([name]) => name === event.target.value).pop();
-    setPatch(patch);
+    setPatchName(event.target.value);
   }, []);
 
   const toggleIsArpVisible = useCallback(
@@ -114,11 +100,6 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
 
   useKeys({onNotePressed, onNoteReleased});
 
-  // useEffect(() => synth.setAttack(attack), [synth, attack]);
-  // useEffect(() => synth.setRelease(release), [synth, release]);
-  // useEffect(() => synth.setWaveform1(waveform1), [synth, waveform1]);
-  // useEffect(() => synth.setWaveform2(waveform2), [synth, waveform2]);
-
   useEffect(() => {
     setIsPlayingCBs.current.forEach(sequencer => {
       if (isArpVisible && isPlaying) {
@@ -129,22 +110,15 @@ function Keyboard({isPlaying, connect, analyser, audioContext}) {
     });
   }, [isPlaying, isArpVisible]);
 
+  useEffect(() => {
+    const [, patch] = patches.find(([name]) => name === patchName);
+    synth.setPatch(patch);
+  }, [patchName]);
+
   return (
     <div className={styles.KeyboardContainer}>
       <h2>KEYBOARD</h2>
-      {/* <ParameterControls
-        volume={volume}
-        attack={attack}
-        release={release}
-        waveform1={waveform1}
-        waveform2={waveform2}
-        handleVolumeChange={handleVolumeChange}
-        handleAttackChange={handleAttackChange}
-        handleReleaseChange={handleReleaseChange}
-        handleWaveformChange1={handleWaveformChange1}
-        handleWaveformChange2={handleWaveformChange2}
-      /> */}
-      <select onChange={handleChangePatch}>
+      <select onChange={handleChangePatch} value={patchName}>
         {patches.map(([name]) => (
           <option key={name} value={name}>
             {name}

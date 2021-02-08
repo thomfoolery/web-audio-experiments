@@ -19,8 +19,8 @@ function App() {
     return {analyser, masterGain};
   }, [audioContext]);
 
-  const setIsPlayingCBs = useRef([]);
   const setBpmCBs = useRef([]);
+  const setIsPlayingCBs = useRef([]);
 
   const [bpm, setBpm] = useState(120);
   const [volume, setVolume] = useState(0.3);
@@ -46,7 +46,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line no-unused-vars
     setIsPlayingCBs.current.forEach(sequencer => {
       if (isPlaying) {
         sequencer.start();

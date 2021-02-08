@@ -1,23 +1,18 @@
 import {useMemo} from 'react';
 import createNoiseSource from './createNoiseSource';
 
-function useComposeSynth(audioContext, destination, patch) {
+function useComposeSynth(audioContext, destination) {
   return useMemo(() => {
     const masterGain = audioContext.createGain();
 
-    let nodes;
-    let sources;
-    let controls;
-    let effects;
-    let noteGain;
-    let maxRelease;
-    let context = {};
+    let patch;
+    let memory = {notes: []};
 
     masterGain.connect(destination);
 
     function playNote(frequency, time = audioContext.currentTime, hold) {
-      noteGain = audioContext.createGain();
-      nodes = patch.nodes.map(node => {
+      const noteGain = audioContext.createGain();
+      const nodes = patch.nodes.map(node => {
         const {type} = node;
 
         switch (type) {
@@ -27,14 +22,17 @@ function useComposeSynth(audioContext, destination, patch) {
               audioNode: noteGain,
             };
           case 'CONTROL':
-            return node.data.type === 'LFO'
-              ? {
+            switch (node.data.type) {
+              case 'LFO':
+                return {
                   ...node,
                   audioNode: createAudioNode(audioContext, node),
-                }
-              : {
+                };
+              default:
+                return {
                   ...node,
                 };
+            }
           default:
             return {
               ...node,
@@ -48,11 +46,11 @@ function useComposeSynth(audioContext, destination, patch) {
         return acc;
       }, {});
 
-      sources = nodes.filter(({type}) => type === 'SOURCE');
-      controls = nodes.filter(({type}) => type === 'CONTROL');
-      effects = nodes.filter(({type}) => type === 'EFFECT');
+      const sources = nodes.filter(({type}) => type === 'SOURCE');
+      const controls = nodes.filter(({type}) => type === 'CONTROL');
+      const effects = nodes.filter(({type}) => type === 'EFFECT');
 
-      maxRelease = Math.max(
+      const maxRelease = Math.max(
         ...controls.map(({data}) => data.params.release || 0),
       );
 
@@ -90,13 +88,8 @@ function useComposeSynth(audioContext, destination, patch) {
         if (audioNode.frequency) {
           audioNode.frequency.value = frequency;
         }
+
         audioNode.start(time);
-
-        context[frequency] = true;
-
-        if (hold) {
-          stopNote(frequency, time + hold);
-        }
       });
 
       controls.forEach(node => {
@@ -148,10 +141,28 @@ function useComposeSynth(audioContext, destination, patch) {
           );
         }
       });
+
+      memory.notes.push({
+        nodes,
+        sources,
+        controls,
+        effects,
+        noteGain,
+        maxRelease,
+        frequency,
+      });
+
+      if (hold) {
+        stopNote(frequency, time + hold);
+      }
     }
 
     function stopNote(frequency, time = audioContext.currentTime) {
-      if (context[frequency]) {
+      const note = memory.notes.find(note => frequency === note.frequency);
+
+      if (note) {
+        const {sources, controls, noteGain, maxRelease} = note;
+
         controls.forEach(node => {
           const {target, data, audioNode} = node;
           const {controlParam} = data;
@@ -180,17 +191,24 @@ function useComposeSynth(audioContext, destination, patch) {
         });
       }
 
-      delete context[frequency];
+      memory.notes = memory.notes.filter(note => frequency != note.frequency);
+    }
+
+    function setPatch(newPatch) {
+      memory.notes.forEach(({frequency}) => stopNote(frequency));
+      memory.notes = [];
+
+      patch = newPatch;
     }
 
     return {
       playNote,
       stopNote,
-      context,
+      setPatch,
       masterGain,
       audioContext,
     };
-  }, [audioContext, destination, patch]);
+  }, [audioContext, destination]);
 }
 
 function setParam(object, param, value, time) {
